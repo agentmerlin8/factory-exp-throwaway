@@ -1,0 +1,14 @@
+name: EXP-2 concurrency probe
+on:
+  workflow_dispatch:
+concurrency:
+  group: exp2-concurrency
+  cancel-in-progress: false
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "job started $(date -u +%H:%M:%S)"
+          sleep 45
+          echo "job finished $(date -u +%H:%M:%S)"

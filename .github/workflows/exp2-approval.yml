@@ -1,0 +1,25 @@
+name: EXP-2 approval probe
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+permissions:
+  pull-requests: write
+jobs:
+  approve-as-github-token:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Approve PR with GITHUB_TOKEN
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          set -x
+          gh api "repos/$GITHUB_REPOSITORY/pulls/$PR/reviews" \
+            -f event=APPROVE -f body="EXP-2: GITHUB_TOKEN approval probe" || true
+      - name: Report review state
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          gh api "repos/$GITHUB_REPOSITORY/pulls/$PR/reviews" \
+            --jq '.[] | {user: .user.login, state: .state}' || true
