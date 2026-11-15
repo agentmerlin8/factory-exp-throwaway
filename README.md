@@ -7,3 +7,5 @@ main moved (C5)
 exp3 main move
 # base
 gate test main move
+# base
+gate test main move
