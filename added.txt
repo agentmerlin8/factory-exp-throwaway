@@ -1,1 +1,1 @@
-strict case edit
+exp3 stale edit
